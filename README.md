@@ -75,7 +75,7 @@ In the default production config, the logger is wrapped around
 a `ENV["RAILS_LOG_TO_STDOUT"].present?` block. I usually just 
 remove this block so I don't have to actually set this ENV var.
 
-You can also remove `config.log_formatter` as we don't need it anymore.
+You can also remove `config.log_formatter` and `config.log_tags` as we don't need it anymore.
 
 I recommend logging `:g_notice` and higher. Rails logs a lot of noise when logging
 `:info` and higher.
