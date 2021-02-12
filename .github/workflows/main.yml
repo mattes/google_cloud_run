@@ -1,0 +1,44 @@
+name: Ruby Gem
+
+on:
+  push:
+    branches: [ master ]
+    tags:
+      - 'v*.*.*'
+
+  pull_request:
+    branches: [ master ]
+
+
+jobs:
+  build:
+    name: Build, Test & Publish
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: Set up Ruby 3.0
+      uses: actions/setup-ruby@v1
+      with:
+        version: 3.0.x
+
+    - name: bundle install
+      run: |
+        bundle install
+        
+    - name: Test
+      run: bin/test
+
+    - name: Publish to RubyGems
+      if: contains(github.ref, 'refs/tags/v')
+      run: |
+        mkdir -p $HOME/.gem
+        touch $HOME/.gem/credentials
+        chmod 0600 $HOME/.gem/credentials
+        printf -- "---\n:rubygems_api_key: ${GEM_HOST_API_KEY}\n" > $HOME/.gem/credentials
+        gem build *.gemspec
+        gem push *.gem
+      env:
+        GEM_HOST_API_KEY: ${{secrets.RUBYGEMS_AUTH_TOKEN}}
+
