@@ -65,7 +65,7 @@ module ActiveJob
           raise "Failed sending job #{job_name}(#{job_id}) to queue '#{region}/#{queue_name}'. Google didn't return a response."
         end
 
-        Rails.logger&.notice "Job #{job_name}(#{job_id}) sent to queue '#{region}/#{queue_name}'"
+        Rails.logger&.info "Job #{job_name}(#{job_id}) sent to queue '#{region}/#{queue_name}'"
       end
 
       def build_task_request(name, url, service_account_email, body, job_timeout, scheduled_at)
