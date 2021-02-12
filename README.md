@@ -2,7 +2,7 @@
 
 * Logging
 * Error Reporting
-* Active Job via [Cloud Tasks](https://cloud.google.com/tasks), including delayed jobs.
+* Active Job Adapter via [Cloud Tasks](https://cloud.google.com/tasks)
 * Minor patches for better compatibility
 * Works with Ruby 3 and Rails 6
 
