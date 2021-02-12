@@ -1,3 +1,5 @@
+require "google-cloud-tasks"
+
 module ActiveJob
   module QueueAdapters
     class GoogleCloudrunTasksAdapter
