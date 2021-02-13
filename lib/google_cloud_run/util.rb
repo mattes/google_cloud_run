@@ -52,6 +52,7 @@ module GoogleCloudRun
   # project_id returns the current Google project id from the
   # metadata server
   def self.project_id
+    return ENV["GOOGLE_PROJECT_ID"] unless ENV["GOOGLE_PROJECT_ID"].blank?
     return "dummy-project" if Rails.env.test?
 
     @project_id ||= begin
@@ -78,6 +79,7 @@ module GoogleCloudRun
   # default_service_account_email returns the default service account's email from the
   # metadata server
   def self.default_service_account_email
+    return ENV["GOOGLE_SERVICE_ACCOUNT_EMAIL"] unless ENV["GOOGLE_SERVICE_ACCOUNT_EMAIL"].blank?
     return "123456789-compute@developer.gserviceaccount.com" if Rails.env.test?
 
     @default_service_account_email ||= begin
