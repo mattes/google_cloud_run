@@ -69,6 +69,11 @@ queue_as "my-queue"
 queue_as "us-central1/my-queue"
 ```
 
+```ruby
+# config/environments/production.rb
+config.action_mailer.deliver_later_queue_name = "my-queue" # or "us-central1/my-queue"
+```
+
 ---
 
 In the default production config, the logger is wrapped around 
