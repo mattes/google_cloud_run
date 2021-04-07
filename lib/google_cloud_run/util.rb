@@ -111,9 +111,9 @@ module GoogleCloudRun
 
   def self.parse_google_application_credentials
     file = ENV["GOOGLE_APPLICATION_CREDENTIALS"]
-    return nil if file.blank?
+    return {} if file.blank?
     JSON.parse(File.read(file)).deep_stringify_keys
   rescue
-    return nil
+    return {}
   end
 end
