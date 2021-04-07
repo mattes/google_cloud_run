@@ -56,6 +56,9 @@ module GoogleCloudRun
     return "dummy-project" if Rails.env.test?
 
     @project_id ||= begin
+        creds = parse_google_application_credentials
+        return creds["project_id"] unless creds["project_id"].blank?
+
         uri = URI.parse("http://metadata.google.internal/computeMetadata/v1/project/project-id")
         request = Net::HTTP::Get.new(uri)
         request["Metadata-Flavor"] = "Google"
@@ -83,6 +86,9 @@ module GoogleCloudRun
     return "123456789-compute@developer.gserviceaccount.com" if Rails.env.test?
 
     @default_service_account_email ||= begin
+        creds = parse_google_application_credentials
+        return creds["email_client"] unless creds["client_email"].blank?
+
         uri = URI.parse("http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/email")
         request = Net::HTTP::Get.new(uri)
         request["Metadata-Flavor"] = "Google"
@@ -101,5 +107,13 @@ module GoogleCloudRun
 
         response.body.strip
       end
+  end
+
+  def self.parse_google_application_credentials
+    file = ENV["GOOGLE_APPLICATION_CREDENTIALS"]
+    return nil if file.blank?
+    JSON.parse(File.read(file)).deep_stringify_keys
+  rescue
+    return nil
   end
 end
